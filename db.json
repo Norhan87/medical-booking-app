@@ -6,8 +6,16 @@
       "specialty": "Cardiology",
       "image": "https://i.pravatar.cc/300?img=12",
       "description": "Experienced cardiologist specialized in heart diseases and preventive cardiac care.",
-      "workingDays": ["Sunday", "Tuesday", "Thursday"],
-      "slots": ["10:00 AM", "11:00 AM", "12:00 PM"]
+      "workingDays": [
+        "Sunday",
+        "Tuesday",
+        "Thursday"
+      ],
+      "slots": [
+        "10:00 AM",
+        "11:00 AM",
+        "12:00 PM"
+      ]
     },
     {
       "id": "2",
@@ -15,8 +23,16 @@
       "specialty": "Dermatology",
       "image": "https://i.pravatar.cc/300?img=47",
       "description": "Dermatologist specialized in skin diseases, acne treatment, and skin care.",
-      "workingDays": ["Monday", "Wednesday", "Saturday"],
-      "slots": ["09:00 AM", "10:00 AM", "01:00 PM"]
+      "workingDays": [
+        "Monday",
+        "Wednesday",
+        "Saturday"
+      ],
+      "slots": [
+        "09:00 AM",
+        "10:00 AM",
+        "01:00 PM"
+      ]
     },
     {
       "id": "3",
@@ -24,8 +40,16 @@
       "specialty": "Neurology",
       "image": "https://i.pravatar.cc/300?img=33",
       "description": "Neurologist focused on diagnosis and treatment of neurological disorders.",
-      "workingDays": ["Sunday", "Monday", "Wednesday"],
-      "slots": ["11:00 AM", "12:00 PM", "02:00 PM"]
+      "workingDays": [
+        "Sunday",
+        "Monday",
+        "Wednesday"
+      ],
+      "slots": [
+        "11:00 AM",
+        "12:00 PM",
+        "02:00 PM"
+      ]
     },
     {
       "id": "4",
@@ -33,8 +57,16 @@
       "specialty": "Pediatrics",
       "image": "https://i.pravatar.cc/300?img=44",
       "description": "Pediatrician providing healthcare and medical advice for children and infants.",
-      "workingDays": ["Saturday", "Monday", "Thursday"],
-      "slots": ["10:00 AM", "12:00 PM", "01:00 PM"]
+      "workingDays": [
+        "Saturday",
+        "Monday",
+        "Thursday"
+      ],
+      "slots": [
+        "10:00 AM",
+        "12:00 PM",
+        "01:00 PM"
+      ]
     },
     {
       "id": "5",
@@ -42,8 +74,16 @@
       "specialty": "Dentistry",
       "image": "https://i.pravatar.cc/300?img=68",
       "description": "Dentist specialized in general dental care, cleaning, and preventive treatments.",
-      "workingDays": ["Sunday", "Tuesday", "Saturday"],
-      "slots": ["09:00 AM", "11:00 AM", "03:00 PM"]
+      "workingDays": [
+        "Sunday",
+        "Tuesday",
+        "Saturday"
+      ],
+      "slots": [
+        "09:00 AM",
+        "11:00 AM",
+        "03:00 PM"
+      ]
     },
     {
       "id": "6",
@@ -51,8 +91,16 @@
       "specialty": "Cardiology",
       "image": "https://i.pravatar.cc/300?img=49",
       "description": "Cardiologist specializing in heart health, hypertension, and cardiovascular prevention.",
-      "workingDays": ["Monday", "Wednesday", "Friday"],
-      "slots": ["10:00 AM", "01:00 PM", "03:00 PM"]
+      "workingDays": [
+        "Monday",
+        "Wednesday",
+        "Friday"
+      ],
+      "slots": [
+        "10:00 AM",
+        "01:00 PM",
+        "03:00 PM"
+      ]
     },
     {
       "id": "7",
@@ -60,8 +108,16 @@
       "specialty": "Orthopedics",
       "image": "https://i.pravatar.cc/300?img=11",
       "description": "Orthopedic doctor specialized in bones, joints, sports injuries, and musculoskeletal problems.",
-      "workingDays": ["Sunday", "Tuesday", "Thursday"],
-      "slots": ["09:00 AM", "12:00 PM", "02:00 PM"]
+      "workingDays": [
+        "Sunday",
+        "Tuesday",
+        "Thursday"
+      ],
+      "slots": [
+        "09:00 AM",
+        "12:00 PM",
+        "02:00 PM"
+      ]
     },
     {
       "id": "8",
@@ -69,9 +125,41 @@
       "specialty": "ENT",
       "image": "https://i.pravatar.cc/300?img=32",
       "description": "ENT specialist treating common ear, nose, throat, and sinus conditions.",
-      "workingDays": ["Monday", "Wednesday", "Saturday"],
-      "slots": ["10:00 AM", "11:00 AM", "02:00 PM"]
+      "workingDays": [
+        "Monday",
+        "Wednesday",
+        "Saturday"
+      ],
+      "slots": [
+        "10:00 AM",
+        "11:00 AM",
+        "02:00 PM"
+      ]
     }
   ],
-  "appointments": []
+  "appointments": [
+    {
+      "doctorId": "2",
+      "doctorName": "Dr. Sara Mohamed",
+      "specialty": "Dermatology",
+      "patientName": "Mona",
+      "patientEmail": "mona@gmail.com",
+      "date": "2026-09-19",
+      "time": "01:00 PM",
+      "notes": "",
+      "id": "k7M047HdDUU"
+    },
+    {
+      "doctorId": "5",
+      "doctorName": "Dr. Youssef Ibrahim",
+      "specialty": "Dentistry",
+      "patientName": "Omar",
+      "patientEmail": "omar@gmail.com",
+      "date": "2026-09-23",
+      "time": "03:00 PM",
+      "notes": "",
+      "id": "7nVwV91242I"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
