@@ -1,14 +1,23 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Navbar() {
-  return (
-    <nav>
-      <h2>Medical Booking</h2>
+  const linkClass = ({ isActive }) =>
+    isActive ? "nav-link nav-link-active" : "nav-link";
 
-      <div>
-        <Link to="/">Doctors</Link>
-        <Link to="/appointments">My Appointments</Link>
-        <Link to="/profile">Profile</Link>
+  return (
+    <nav className="navbar">
+      <h2 className="navbar-logo">Medical Booking</h2>
+
+      <div className="navbar-links">
+        <NavLink to="/" end className={linkClass}>
+          Doctors
+        </NavLink>
+        <NavLink to="/appointments" className={linkClass}>
+          My Appointments
+        </NavLink>
+        <NavLink to="/profile" className={linkClass}>
+          Profile
+        </NavLink>
       </div>
     </nav>
   );

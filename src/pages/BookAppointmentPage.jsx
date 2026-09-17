@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
+import Toast from "../components/Toast";
 
 function BookAppointmentPage() {
   const [searchParams] = useSearchParams();
@@ -16,7 +17,7 @@ function BookAppointmentPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
 
   useEffect(() => {
@@ -39,6 +40,8 @@ function BookAppointmentPage() {
     }
   }, [doctorId]);
 
+  const today = new Date().toISOString().split("T")[0];
+
   const onSubmit = async (data) => {
     try {
       const appointment = {
@@ -53,10 +56,11 @@ function BookAppointmentPage() {
       };
 
       await api.post("/appointments", appointment);
+      setMessage("Appointment booked successfully!");
 
-      alert("Appointment booked successfully!");
-
-      navigate("/appointments");
+      setTimeout(() => {
+        navigate("/appointments");
+      }, 1000);
     } catch (error) {
       setMessage("Failed to book appointment.");
     }
@@ -71,89 +75,119 @@ function BookAppointmentPage() {
   }
 
   return (
+    <>
+    <Toast
+      message={message}
+      onClose={() => setMessage("")}
+    />
     <div className="booking-form-page">
       <h1>Book Appointment</h1>
 
-      <div className="doctor-mini-info">
-        <h2>{doctor.name}</h2>
-        <p>{doctor.specialty}</p>
+      <div className="booking-layout">
+        <div className="doctor-summary-card">
+          <img src={doctor.image} alt={doctor.name} />
+          <h2>{doctor.name}</h2>
+          <span className="doctor-specialty">{doctor.specialty}</span>
+          <p className="summary-note">
+            Please fill in your details and choose your preferred date and time.
+          </p>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="booking-form">
+          <div className="form-group">
+            <label>👤 Patient Name</label>
+
+            <input
+              type="text"
+              {...register("patientName", {
+                required: "Patient name is required",
+                minLength: {
+                  value: 3,
+                  message: "Name must be at least 3 characters",
+                },
+              })}
+            />
+
+            {errors.patientName && (
+              <p className="form-error">{errors.patientName.message}</p>
+            )}
+          </div>
+
+          <div className="form-group">
+            <label>📧 Email</label>
+
+            <input
+              type="email"
+              {...register("patientEmail", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Please enter a valid email",
+                },
+              })}
+            />
+
+            {errors.patientEmail && (
+              <p className="form-error">{errors.patientEmail.message}</p>
+            )}
+          </div>
+
+          <div className="form-row">
+            <div className="form-group">
+              <label>📅 Date</label>
+
+              <input
+                type="date"
+                min={today}
+                {...register("date", {
+                  required: "Date is required",
+                })}
+              />
+
+              {errors.date && (
+                <p className="form-error">{errors.date.message}</p>
+              )}
+            </div>
+
+            <div className="form-group">
+              <label>🕐 Time</label>
+
+              <select
+                {...register("time", {
+                  required: "Please select a time",
+                })}
+              >
+                <option value="">Select a time</option>
+
+                {doctor.slots.map((slot) => (
+                  <option key={slot} value={slot}>
+                    {slot}
+                  </option>
+                ))}
+              </select>
+
+              {errors.time && (
+                <p className="form-error">{errors.time.message}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>📝 Notes (optional)</label>
+
+            <textarea
+              {...register("notes")}
+              placeholder="Any additional details..."
+            />
+          </div>
+
+          <button type="submit" className="btn-primary" disabled={isSubmitting}>
+            {isSubmitting ? "Booking..." : "Book Appointment"}
+          </button>
+        </form>
       </div>
-
-      <form onSubmit={handleSubmit(onSubmit)} className="booking-form">
-        <div className="form-group">
-          <label>Patient Name</label>
-
-          <input
-            type="text"
-            {...register("patientName", {
-              required: "Patient name is required",
-            })}
-          />
-
-          {errors.patientName && (
-            <p className="form-error">{errors.patientName.message}</p>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label>Email</label>
-
-          <input
-            type="email"
-            {...register("patientEmail", {
-              required: "Email is required",
-            })}
-          />
-
-          {errors.patientEmail && (
-            <p className="form-error">{errors.patientEmail.message}</p>
-          )}
-        </div>
-
-        <div className="form-group">
-          <label>Date</label>
-
-          <input
-            type="date"
-            {...register("date", {
-              required: "Date is required",
-            })}
-          />
-
-          {errors.date && <p className="form-error">{errors.date.message}</p>}
-        </div>
-
-        <div className="form-group">
-          <label>Time</label>
-
-          <select
-            {...register("time", {
-              required: "Please select a time",
-            })}
-          >
-            <option value="">Select a time</option>
-
-            {doctor.slots.map((slot) => (
-              <option key={slot} value={slot}>
-                {slot}
-              </option>
-            ))}
-          </select>
-
-          {errors.time && <p className="form-error">{errors.time.message}</p>}
-        </div>
-
-        <div className="form-group">
-          <label>Notes</label>
-
-          <textarea {...register("notes")} />
-        </div>
-
-        <button type="submit" className="btn-primary">
-          Book Appointment
-        </button>
-      </form>
     </div>
+    </>
   );
 }
 

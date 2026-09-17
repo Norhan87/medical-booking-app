@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import api from "../services/api";
+import Toast from "../components/Toast";
+import AppointmentCard from "../components/AppointmentCard";
 
 function AppointmentsPage() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editingAppointment, setEditingAppointment] = useState(null);
+  const [message, setMessage] = useState("");
+  const [editingDoctor, setEditingDoctor] = useState(null);
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
+
+  const today = new Date().toISOString().split("T")[0];
 
   useEffect(() => {
     const fetchAppointments = async () => {
@@ -43,25 +49,36 @@ function AppointmentsPage() {
       await api.delete(`/appointments/${id}`);
 
       setAppointments((currentAppointments) =>
-        currentAppointments.filter((appointment) => appointment.id !== id),
+        currentAppointments.filter(
+          (appointment) => appointment.id !== id,
+        ),
       );
 
-      alert("Appointment cancelled successfully!");
+      setMessage("Appointment cancelled successfully!");
     } catch (error) {
-      alert("Failed to cancel appointment.");
+      setMessage("Failed to cancel appointment.");
     }
   };
 
-  const handleEdit = (appointment) => {
-    setEditingAppointment(appointment);
+  const handleEdit = async (appointment) => {
+    try {
+      const response = await api.get(
+        `/doctors/${appointment.doctorId}`,
+      );
 
-    reset({
-      patientName: appointment.patientName,
-      patientEmail: appointment.patientEmail,
-      date: appointment.date,
-      time: appointment.time,
-      notes: appointment.notes || "",
-    });
+      setEditingDoctor(response.data);
+      setEditingAppointment(appointment);
+
+      reset({
+        patientName: appointment.patientName,
+        patientEmail: appointment.patientEmail,
+        date: appointment.date,
+        time: appointment.time,
+        notes: appointment.notes || "",
+      });
+    } catch (error) {
+      setMessage("Failed to load doctor information.");
+    }
   };
 
   const handleUpdate = async (data) => {
@@ -89,15 +106,18 @@ function AppointmentsPage() {
       );
 
       setEditingAppointment(null);
+      setEditingDoctor(null);
+      reset();
 
-      alert("Appointment updated successfully!");
+      setMessage("Appointment updated successfully!");
     } catch (error) {
-      alert("Failed to update appointment.");
+      setMessage("Failed to update appointment.");
     }
   };
 
   const handleCancelEdit = () => {
     setEditingAppointment(null);
+    setEditingDoctor(null);
     reset();
   };
 
@@ -110,147 +130,155 @@ function AppointmentsPage() {
   }
 
   return (
-    <div className="appointments-page">
-      <h1>My Appointments</h1>
+    <>
+      <Toast
+        message={message}
+        onClose={() => setMessage("")}
+      />
 
-      {editingAppointment && (
-        <div className="edit-appointment-box">
-          <h2>Edit Appointment</h2>
+      <div className="appointments-page">
+        <h1>My Appointments</h1>
 
-          <form onSubmit={handleSubmit(handleUpdate)} className="booking-form">
-            <div className="form-group">
-              <label>Patient Name</label>
+        {editingAppointment && (
+          <div className="edit-appointment-box">
+            <h2>Edit Appointment</h2>
 
-              <input
-                type="text"
-                {...register("patientName", {
-                  required: "Patient name is required",
-                })}
-              />
+            <form
+              onSubmit={handleSubmit(handleUpdate)}
+              className="booking-form"
+            >
+              <div className="form-group">
+                <label>Patient Name</label>
 
-              {errors.patientName && (
-                <p className="form-error">{errors.patientName.message}</p>
-              )}
-            </div>
+                <input
+                  type="text"
+                  {...register("patientName", {
+                    required: "Patient name is required",
+                    minLength: {
+                      value: 3,
+                      message:
+                        "Name must be at least 3 characters",
+                    },
+                  })}
+                />
 
-            <div className="form-group">
-              <label>Email</label>
+                {errors.patientName && (
+                  <p className="form-error">
+                    {errors.patientName.message}
+                  </p>
+                )}
+              </div>
 
-              <input
-                type="email"
-                {...register("patientEmail", {
-                  required: "Email is required",
-                })}
-              />
+              <div className="form-group">
+                <label>Email</label>
 
-              {errors.patientEmail && (
-                <p className="form-error">{errors.patientEmail.message}</p>
-              )}
-            </div>
+                <input
+                  type="email"
+                  {...register("patientEmail", {
+                    required: "Email is required",
+                    pattern: {
+                      value:
+                        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message:
+                        "Please enter a valid email",
+                    },
+                  })}
+                />
 
-            <div className="form-group">
-              <label>Date</label>
+                {errors.patientEmail && (
+                  <p className="form-error">
+                    {errors.patientEmail.message}
+                  </p>
+                )}
+              </div>
 
-              <input
-                type="date"
-                {...register("date", {
-                  required: "Date is required",
-                })}
-              />
+              <div className="form-group">
+                <label>Date</label>
 
-              {errors.date && (
-                <p className="form-error">{errors.date.message}</p>
-              )}
-            </div>
+                <input
+                  type="date"
+                  min={today}
+                  {...register("date", {
+                    required: "Date is required",
+                  })}
+                />
 
-            <div className="form-group">
-              <label>Time</label>
+                {errors.date && (
+                  <p className="form-error">
+                    {errors.date.message}
+                  </p>
+                )}
+              </div>
 
-              <input
-                type="text"
-                {...register("time", {
-                  required: "Time is required",
-                })}
-              />
+              <div className="form-group">
+                <label>Time</label>
 
-              {errors.time && (
-                <p className="form-error">{errors.time.message}</p>
-              )}
-            </div>
+                <select
+                  {...register("time", {
+                    required: "Please select a time",
+                  })}
+                >
+                  <option value="">Select a time</option>
 
-            <div className="form-group">
-              <label>Notes</label>
+                  {editingDoctor?.slots.map((slot) => (
+                    <option key={slot} value={slot}>
+                      {slot}
+                    </option>
+                  ))}
+                </select>
 
-              <textarea {...register("notes")} />
-            </div>
+                {errors.time && (
+                  <p className="form-error">
+                    {errors.time.message}
+                  </p>
+                )}
+              </div>
 
-            <div className="edit-form-actions">
-              <button type="submit" className="btn-primary">
-                Update Appointment
-              </button>
+              <div className="form-group">
+                <label>Notes</label>
 
-              <button
-                type="button"
-                onClick={handleCancelEdit}
-                className="btn-outline"
-              >
-                Cancel Edit
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+                <textarea {...register("notes")} />
+              </div>
 
-      {appointments.length === 0 ? (
-        <p>No appointments found.</p>
-      ) : (
-        <div className="appointments-list">
-          {appointments.map((appointment) => (
-            <div key={appointment.id} className="appointment-card">
-              <h2>{appointment.doctorName}</h2>
-
-              <p>
-                <strong>Specialty:</strong> {appointment.specialty}
-              </p>
-
-              <p>
-                <strong>Patient:</strong> {appointment.patientName}
-              </p>
-
-              <p>
-                <strong>Date:</strong> {appointment.date}
-              </p>
-
-              <p>
-                <strong>Time:</strong> {appointment.time}
-              </p>
-
-              {appointment.notes && (
-                <p>
-                  <strong>Notes:</strong> {appointment.notes}
-                </p>
-              )}
-
-              <div className="appointment-actions">
+              <div className="edit-form-actions">
                 <button
-                  onClick={() => handleEdit(appointment)}
+                  type="submit"
+                  className="btn-primary"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting
+                    ? "Updating..."
+                    : "Update Appointment"}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCancelEdit}
                   className="btn-outline"
                 >
-                  Edit Appointment
-                </button>
-
-                <button
-                  onClick={() => handleDelete(appointment.id)}
-                  className="btn-danger"
-                >
-                  Cancel Appointment
+                  Cancel Edit
                 </button>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+            </form>
+          </div>
+        )}
+
+        {appointments.length === 0 ? (
+          <p>No appointments found.</p>
+        ) : (
+          <div className="appointments-list">
+            {appointments.map((appointment) => (
+              <AppointmentCard
+                key={appointment.id}
+                appointment={appointment}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
