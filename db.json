@@ -144,21 +144,21 @@
       "specialty": "Dentistry",
       "patientName": "Omar",
       "patientEmail": "omar@gmail.com",
-      "date": "2026-09-25",
+      "date": "2026-09-26",
       "time": "11:00 AM",
       "notes": "",
       "id": "7nVwV91242I"
     },
     {
-      "doctorId": "4",
-      "doctorName": "Dr. Mariam Khaled",
-      "specialty": "Pediatrics",
-      "patientName": "Ali ",
-      "patientEmail": "ali@gmail.com",
-      "date": "2026-09-30",
-      "time": "10:00 AM",
+      "doctorId": "1",
+      "doctorName": "Dr. Ahmed Hassan",
+      "specialty": "Cardiology",
+      "patientName": "Mohamed",
+      "patientEmail": "mohamed@gmail.com",
+      "date": "2026-10-01",
+      "time": "11:00 AM",
       "notes": "",
-      "id": "HuZ_ZLMuCp4"
+      "id": "D_sRlMcAIjA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
