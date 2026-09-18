@@ -128,6 +128,12 @@ DELETE /appointments/:id
 - `/profile` — Profile
 - `*` — 404 Not Found
 
+## Deployed Link
+
+🔗 [Live Demo](https://medical-booking-app-sigma.vercel.app/)
+
+> **Note:** The live demo shows the UI only. Since the API runs locally via `json-server`, the full booking and CRUD functionality can be tested by cloning the repo and running it locally (see installation steps above). A complete video walkthrough demonstrating all features has been submitted separately.
+
 ## Form Validation
 
 Appointment forms validate:
@@ -146,3 +152,29 @@ Zustand is used to manage favorite doctors across the application.
 ## Author
 
 Medical Booking App — React Training Project
+
+## Screenshots
+
+### Doctors List
+
+![Doctors List](./screenshots/doctors-list.png)
+
+### Doctor Details
+
+![Doctor Details](./screenshots/doctor-details.png)
+
+### Book Appointment
+
+![Book Appointment](./screenshots/booking-form.png)
+
+### My Appointments
+
+![My Appointments](./screenshots/appointments.png)
+
+### Profile Page
+
+![Profile Page](./screenshots/profile.png)
+
+### 🌙 Dark Mode
+
+![Dark Mode](./screenshots/dark-mode.png)

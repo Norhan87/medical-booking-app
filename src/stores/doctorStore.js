@@ -24,6 +24,11 @@ const useDoctorStore = create(
             favorites: [...state.favorites, doctor],
           };
         }),
+      theme: "light",
+      toggleTheme: () =>
+        set((state) => ({
+          theme: state.theme === "light" ? "dark" : "light",
+        })),
     }),
     {
       name: "doctor-store",

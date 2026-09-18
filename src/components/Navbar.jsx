@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
+import useDoctorStore from "../stores/doctorStore";
 
 function Navbar() {
+  const { theme, toggleTheme } = useDoctorStore();
+
   const linkClass = ({ isActive }) =>
     isActive ? "nav-link nav-link-active" : "nav-link";
 
@@ -18,6 +21,10 @@ function Navbar() {
         <NavLink to="/profile" className={linkClass}>
           Profile
         </NavLink>
+
+        <button onClick={toggleTheme} className="theme-button">
+          {theme === "light" ? "🌙" : "☀️"}
+        </button>
       </div>
     </nav>
   );

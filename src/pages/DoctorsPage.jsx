@@ -50,22 +50,29 @@ function DoctorsPage() {
 
   return (
     <div>
-      <h1>Our Doctors</h1>
+      <div className="doctors-header">
+        <h1>Our Doctors</h1>
 
-      <input
-        type="text"
-        placeholder="Search by doctor name..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+        <div className="search-filter">
+          <input
+            type="text"
+            placeholder="Search by doctor name..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
 
-      <select value={specialty} onChange={(e) => setSpecialty(e.target.value)}>
-        {specialties.map((item) => (
-          <option key={item} value={item}>
-            {item}
-          </option>
-        ))}
-      </select>
+          <select
+            value={specialty}
+            onChange={(e) => setSpecialty(e.target.value)}
+          >
+            {specialties.map((item) => (
+              <option key={item} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
 
       {filteredDoctors.length === 0 ? (
         <p>No doctors found.</p>
