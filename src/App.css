@@ -213,11 +213,6 @@ main h1 {
 }
 
 @media (max-width: 600px) {
-  nav {
-    padding: 14px 20px;
-    flex-direction: column;
-    gap: 10px;
-  }
   main {
     padding: 24px 16px;
   }
@@ -253,7 +248,7 @@ main h1 {
 .filters-bar select:focus {
   border-color: #2563eb;
 }
-/* ===== Shared buttons ===== */
+/* Shared buttons */
 .btn-primary {
   display: inline-block;
   background-color: #2563eb;
@@ -301,7 +296,7 @@ main h1 {
   background-color: #fef2f2;
 }
 
-/* ===== Doctor Details Page ===== */
+/* Doctor Details Page */
 .doctor-details-page {
   max-width: 700px;
   margin: 0 auto;
@@ -337,7 +332,7 @@ main h1 {
   margin-top: 20px;
 }
 
-/* ===== Booking Form Page ===== */
+/* Booking Form Page */
 .booking-form-page {
   max-width: 1000px;
   margin: 0 auto;
@@ -448,7 +443,7 @@ main h1 {
   min-width: 0;
 }
 
-/* ===== My Appointments Page ===== */
+/* My Appointments Page */
 .appointments-page {
   max-width: 650px;
   margin: 0 auto;
@@ -591,7 +586,7 @@ main h1 {
   display: inline-block;
   text-decoration: none;
 }
-/* ===== Profile Page ===== */
+/* Profile Page */
 .profile-page {
   max-width: 700px;
   margin: 0 auto;

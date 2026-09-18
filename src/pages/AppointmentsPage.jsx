@@ -49,9 +49,7 @@ function AppointmentsPage() {
       await api.delete(`/appointments/${id}`);
 
       setAppointments((currentAppointments) =>
-        currentAppointments.filter(
-          (appointment) => appointment.id !== id,
-        ),
+        currentAppointments.filter((appointment) => appointment.id !== id),
       );
 
       setMessage("Appointment cancelled successfully!");
@@ -62,9 +60,7 @@ function AppointmentsPage() {
 
   const handleEdit = async (appointment) => {
     try {
-      const response = await api.get(
-        `/doctors/${appointment.doctorId}`,
-      );
+      const response = await api.get(`/doctors/${appointment.doctorId}`);
 
       setEditingDoctor(response.data);
       setEditingAppointment(appointment);
@@ -131,10 +127,7 @@ function AppointmentsPage() {
 
   return (
     <>
-      <Toast
-        message={message}
-        onClose={() => setMessage("")}
-      />
+      <Toast message={message} onClose={() => setMessage("")} />
 
       <div className="appointments-page">
         <h1>My Appointments</h1>
@@ -156,16 +149,13 @@ function AppointmentsPage() {
                     required: "Patient name is required",
                     minLength: {
                       value: 3,
-                      message:
-                        "Name must be at least 3 characters",
+                      message: "Name must be at least 3 characters",
                     },
                   })}
                 />
 
                 {errors.patientName && (
-                  <p className="form-error">
-                    {errors.patientName.message}
-                  </p>
+                  <p className="form-error">{errors.patientName.message}</p>
                 )}
               </div>
 
@@ -177,18 +167,14 @@ function AppointmentsPage() {
                   {...register("patientEmail", {
                     required: "Email is required",
                     pattern: {
-                      value:
-                        /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                      message:
-                        "Please enter a valid email",
+                      value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                      message: "Please enter a valid email",
                     },
                   })}
                 />
 
                 {errors.patientEmail && (
-                  <p className="form-error">
-                    {errors.patientEmail.message}
-                  </p>
+                  <p className="form-error">{errors.patientEmail.message}</p>
                 )}
               </div>
 
@@ -204,9 +190,7 @@ function AppointmentsPage() {
                 />
 
                 {errors.date && (
-                  <p className="form-error">
-                    {errors.date.message}
-                  </p>
+                  <p className="form-error">{errors.date.message}</p>
                 )}
               </div>
 
@@ -228,9 +212,7 @@ function AppointmentsPage() {
                 </select>
 
                 {errors.time && (
-                  <p className="form-error">
-                    {errors.time.message}
-                  </p>
+                  <p className="form-error">{errors.time.message}</p>
                 )}
               </div>
 
@@ -246,9 +228,7 @@ function AppointmentsPage() {
                   className="btn-primary"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting
-                    ? "Updating..."
-                    : "Update Appointment"}
+                  {isSubmitting ? "Updating..." : "Update Appointment"}
                 </button>
 
                 <button
